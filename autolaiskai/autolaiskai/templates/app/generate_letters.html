@@ -1,0 +1,105 @@
+{% extends 'main/base_auth.html' %}
+{% load custom_filters %}
+{% block content %}
+{% load static %}
+<style>
+  .table-title {
+
+    margin: auto!important;
+  }
+</style>
+<script>
+$(document).ready(function() {
+  $("#address_search").on("click", function(e){
+      $("#loadMe").modal({
+        backdrop: "static", 
+        keyboard: false, 
+        show: true 
+    });
+  });
+});
+</script>
+<main class="bd-main order-1">
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="true" href="#!">Kvietimų generavimas</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="container-xl">
+          <div class="table-responsive">
+            <div class="table-wrapper">
+               <div class="table-title">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <h6></h6>
+                  </div>
+                </div>
+              </div> 
+              <form id="#submit-button" method = "POST">
+                {% csrf_token %}
+                {% if crudlist_from_database %}
+                <table class="table table-striped table-hover"  class="display select">
+                  <thead style="font-weight:bold;">
+                    <tr>
+                      <th>
+                        <span class="custom-checkbox">
+                          <input type="checkbox" id="selectAll"  >
+                          <label for="selectAll"></label>
+                        </span>
+                      </th>
+                      <th>Kadastro numeris</th>
+                      <th>Savininkas</th>
+                      <th>gim. data</th>
+                      <th>Savininko adresas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in crudlist_from_database %}
+                    <tr>
+                      <td>
+                        <span class="custom-checkbox">
+                          <input type="checkbox" id="selectAll" name='ok' value="{{ i.pk }}">
+                          <label for="checkbox1"></label>
+                        </span>
+                      </td>
+                      <td>{{i.kad_nr|extract_brackets_quotes}}</td>
+                      <td>{{i.name}}</td>
+                      <td>{{i.gim_data}}</td>
+                      <td>{{i.name_address}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                  <h4 style="text-align:center;">No data found</h4>
+                {% endif %}
+                <button id="address_search" type="submit" class="btn btn-primary my-4">Adresų paieška</button>
+              </form>
+
+           
+              <!-- Modal -->
+              <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <div class="loader"></div>
+                      <div clas="loader-txt">
+                        <p>Ieškomi sklypų adresai <br><br><small>... Ieškoma</small></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>        
+        </div>
+      </div>
+    </div>
+</main>
+
+{% endblock content %}

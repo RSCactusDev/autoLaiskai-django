@@ -1,0 +1,40 @@
+{% extends 'app/sidebar.html' %}
+{% block content %}
+{% load static %}
+
+
+<main class="bd-main order-1">
+  <div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="true" href="#!">Kvietimų generavimas</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Registrų Centro gretimybių pažymos įkėlimas:</h5>
+      <form id="gretimybiu" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <label for="files" class="btn btn-primary"> Gretimybių pažymos įkėlimas (PDF)</label>
+        <input id="files" class="autosubmit" name="rc_pdf" type="file"  style="display:none;" />
+      </form>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-body text-center">
+              <div class="loader"></div>
+              <div class="loader-txt">
+                <p>Nuskaitomas PDF failas:<br><br><small>{{request.session.file_name}}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% endblock content %}

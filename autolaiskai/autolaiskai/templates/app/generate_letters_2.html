@@ -1,0 +1,436 @@
+{% extends 'main/base_auth.html' %}
+{% load custom_filters %}
+{% block content %}
+{% load static %}
+<style>
+  body {
+      color: #404E67;
+      background: #F5F7FA;
+      font-family: 'Open Sans', sans-serif;
+  }
+  
+  .table-wrapper {
+      
+     
+      background: #fff;
+      
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  }
+  
+  .table-title {
+      padding-bottom: 10px;
+      margin: 0 0 10px;
+  }
+  
+  table.table tr td {
+    border-color: #e9e9e9;
+    padding: 6px 0px;
+    vertical-align: middle;
+  }
+
+  table.table td:last-child i {
+    opacity: 0.9;
+    font-size: 20px;
+    margin: 0 5px;
+  }
+  .table-title h2 {
+      margin: 6px 0 0;
+      
+  }
+  
+  .table-title .add-new {
+      float: right;
+      height: 30px;
+      font-weight: bold;
+      font-size: 12px;
+      text-shadow: none;
+      min-width: 100px;
+      border-radius: 50px;
+      line-height: 13px;
+  }
+  
+  .table-title .add-new i {
+      margin-right: 4px;
+  }
+  
+  table.table {
+      table-layout: fixed;
+  }
+  
+  table.table tr th,
+  table.table tr td {
+      border-color: #e9e9e9;
+  }
+  
+  table.table th i {
+      font-size: 13px;
+      margin: 0 5px;
+      cursor: pointer;
+  }
+  
+  table.table th:last-child {
+      width: 100px;
+  }
+  
+  table.table td a {
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 5px;
+      min-width: 24px;
+  }
+  
+  table.table td a.add {
+      color: #27C46B;
+  }
+  
+  table.table td a.edit {
+      color: #FFC107;
+  }
+  
+  table.table td a.delete {
+      color: #E34724;
+  }
+  
+  table.table td i {
+      font-size: 17px;
+  }
+  
+  table.table td a.add i {
+      font-size: 24px;
+      margin-right: -1px;
+      position: relative;
+      top: 3px;
+  }
+  
+  table.table .form-control {
+      height: 32px;
+      line-height: 32px;
+      box-shadow: none;
+      border-radius: 2px;
+  }
+  
+  table.table .form-control.error {
+      border-color: #f50000;
+  }
+  
+  table.table td .add {
+      display: none;
+  }
+  table.table tr th:first-child {
+    width: 97px;
+  }
+  p#p_bold {
+    font-weight: bold;
+    margin-right: 803px;
+    color: black;
+}
+p#countdown-timer {
+        font-weight: bold;
+}
+</style>
+
+<style>
+    .col-sm-4 {
+        margin-inline-start: auto;
+    }
+    table.table .form-control {
+        height: 60px!important;
+        line-height: 32px;
+        box-shadow: none;
+        border-radius: 2px;
+      }
+    .form-control {
+        font-size: 12px;
+      }
+    .btn.btn-primary {
+        margin-top: 10px;
+      }
+    table.table tr th:first-child {
+    width: 110px;
+    }
+    #p_bold {
+
+        width: 500px;
+        margin-left: -70px;
+      }
+
+      .btn.btn-info.add-new {
+        font-size: 14px;
+        display: flex;         /* Enable flexbox */
+        justify-content: center; /* Center content horizontally */
+        align-items: center;    /* Center content vertically */
+    }
+    
+</style>
+
+<main class="bd-main order-1">
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="true" href="#!">Kvietimų generavimas</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="container-xl">
+          <div class="table-responsive">
+            <div class="table-wrapper">
+            
+
+              <div class="container-lg">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                
+                                <div class="col-sm-4">
+                                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Pridėti</button>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Kadastro numeris</th>
+                                    <th>Matavimų data</th>
+                                    <th>Savininkas</th>
+                                    <th>gim-data/ak. nr.</th>
+                                    <th>Savininko gyv. vieta</th>
+                                    <th>Sklypo adresas <span>(formatas a;a)</span></th>
+                                    <th>Sklypo koordinatės</th>
+                                    <th>Veiksmai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in selected_values_crudlist %}
+                                {% for x in i %}
+                                <tr>
+                                    <td>{{x.kad_nr|extract_brackets_quotes}}</td>
+                                    <td>{{x.mat_date|extract_brackets_quotes}}</td>
+                                    <td>{{x.name}}</td>
+                                    <td>{{x.gim_data}}</td>
+                                    <td>{{x.name_address}}</td>
+                                    <td>{{x.kad_address|join_list_with_semicolon}}</td>
+                                    <td>{{x.coordinates|extract_brackets_quotes}}</td>
+                                    <td>
+                                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                        <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                              {% endfor %} 
+                            </tbody>
+                        </table>
+
+
+                    
+                    </div>
+                </div>
+            </div>  
+
+            <p id="p_bold">Kvietimų ir Pakartotinių laiškų generavimas: </p>
+            <button id="generate_letters" class="btn btn-primary my-4">Generuoti</button>
+            
+            <div id="download-links-container"></div>
+
+              
+              <!-- Modal -->
+              <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <div class="loader"></div>
+                      <div class="loader-txt">
+                        <p><br><br><small>... Generuojama, prašome palaukti ...</small></p>
+                        <p id="countdown-timer">0:00</p>
+                        <p>Gali užtrukti iki 1:30 min.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>        
+        </div>
+      </div>
+    </div>
+    
+</main>
+
+<script>
+
+var countdownInterval;
+
+function startCountdown() {
+    var seconds = 0;
+    clearInterval(countdownInterval); // Clear existing interval if any
+    countdownInterval = setInterval(function() {
+        seconds++;
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = seconds % 60;
+        if (remainingSeconds < 10) {
+            remainingSeconds = '0' + remainingSeconds;  // add zero in front of numbers < 10
+        }
+        $('#countdown-timer').text(minutes + ':' + remainingSeconds);
+    }, 1000); // update every second
+}
+
+function stopCountdown() {
+    clearInterval(countdownInterval);
+    $('#countdown-timer').text('0:00'); // Reset timer to 0:00
+}
+
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+        var actions = $("table td:last-child").html();
+        // Append table with add row form on add new button click
+        $(".add-new").click(function() {
+            $(this).attr("disabled", "disabled");
+            var index = $("table tbody tr:last-child").index();
+            var row = '<tr>' +
+                '<td><input type="text" class="form-control" name="kadastro_numeris" id="kadastro_numeris"></td>' +
+                '<td><input type="text" class="form-control" name="matavimu_data" id="matavimu_data"></td>' +
+                '<td><input type="text" class="form-control" name="savininkas" id="savininkas"></td>' +
+                '<td><input type="text" class="form-control" name="gim-data" id="gim-data"></td>' +
+                '<td><input type="text" class="form-control" name="sav_gyv" id="sav_gyv"></td>' +
+                '<td><input type="text" class="form-control" name="sklypo_adresas" id="sklypo_adresas"></td>' +
+                '<td><input type="text" class="form-control" name="sklypo_koordinates" id="sklypo_koordinates"></td>' +
+                '<td>' + actions + '</td>' +
+                '</tr>';
+            $("table").append(row);
+            $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        // Add row on add button click
+        $(document).on("click", ".add", function() {
+            var empty = false;
+            var input = $(this).parents("tr").find('input[type="text"]');
+            input.each(function() {
+                if (!$(this).val()) {
+                    $(this).addClass("error");
+                    empty = true;
+                } else {
+                    $(this).removeClass("error");
+                }
+            });
+            $(this).parents("tr").find(".error").first().focus();
+            if (!empty) {
+                input.each(function() {
+                    $(this).parent("td").html($(this).val());
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").removeAttr("disabled");
+            }
+        });
+        // Edit row on edit button click
+        $(document).on("click", ".edit", function() {
+            $(this).parents("tr").find("td:not(:last-child)").each(function() {
+                $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+            });
+            $(this).parents("tr").find(".add, .edit").toggle();
+            $(".add-new").attr("disabled", "disabled");
+        });
+        // Delete row on delete button click
+        $(document).on("click", ".delete", function() {
+            event.preventDefault();
+            $(this).tooltip('hide');
+            $(this).parents("tr").remove();
+            $(".add-new").removeAttr("disabled");
+        });
+    });
+    
+    function collectTableData() {
+      var data = [];
+      $("table tbody tr").each(function() {
+          var row = {};
+          $(this).find("td:not(:last-child)").each(function(index) {
+              var columnName = $("table thead th").eq(index).text().trim();
+              row[columnName] = $(this).text().trim();
+          });
+          data.push(row);
+      });
+      return data;
+  }
+  
+  $("#generate_letters").click(function() {
+      var tableData = collectTableData(); 
+      $('#loadMe').modal({
+        backdrop: "static", // Remove ability to close modal with click
+        keyboard: false, // Remove option to close with keyboard
+        show: true // Display loader
+    });
+      startCountdown();
+      $.ajax({
+          url: '/genereta_leters_3/', 
+          type: 'POST',
+          headers: {
+              'X-CSRFToken': getCookie('csrftoken') 
+          },
+          contentType: 'application/json',
+          data: JSON.stringify({tableData: tableData}),
+          success: function(response) {
+            createDownloadLinks(response.files, response.zip_file);
+            stopCountdown();
+            $('#generate_letters').hide();
+
+        },
+        error: function(error) {
+            console.log('Error sending data');
+            $('#loadMe').modal('hide');
+            stopCountdown();
+        }
+      });
+   
+  });
+
+  
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+    
+  }
+  function createDownloadLinks(filePaths, zipFilePath) {
+    var downloadContainer = $('#download-links-container');
+    downloadContainer.empty(); // Clear previous links
+
+    filePaths.forEach(function(filePath) {
+        let link = $('<a>')
+            .attr('href', filePath) 
+            .attr('download', '')
+            .text('Atsisiuntimas: ' + filePath.split('/').pop());
+        downloadContainer.append(link).append('<br>');
+    });
+    if (zipFilePath) {
+        let zipDownloadButton = $('<button>')
+            .addClass('btn btn-primary')
+            .text('Atsisųsti Visus ZIP')
+            .click(function() {
+                window.location.href = zipFilePath; // Triggers the download of the ZIP file
+            });
+        downloadContainer.append(zipDownloadButton);
+    }
+    
+    if(filePaths.length > 0) {
+        setTimeout(function() {
+            $('#loadMe').modal('hide');
+        }, 2000);
+    }
+}
+
+  </script>
+
+{% endblock content %}

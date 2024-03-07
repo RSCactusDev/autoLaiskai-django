@@ -1,0 +1,76 @@
+{% extends 'main/base_auth.html' %}
+{% block content %}
+{% load static %}
+<style>
+    
+
+    form {
+    margin-top: 20px;
+
+    }
+    .card {
+        width: 400px;
+        height: 240px;
+      }
+    form {
+        height: 67px;
+    }   
+    label {
+        margin-top: 20px;
+        margin-left: -100px;
+        visibility: hidden;
+    }
+    a.btn.btn-primary {
+        width: 350px;
+        margin-left: 25px;
+        margin-top: 10px;
+      }
+    input#id_template_header {
+        margin-left: 16px;
+    }
+    .file-path {
+        margin-left: 25px;
+    }
+    .alert.alert-success {
+        width: 350px;
+        align-content: center;
+        margin: 0 auto;
+        text-align: center;
+        display: block;
+      }
+    
+</style>
+<main class="bd-main order-1">
+    <div class="card">
+        <h2> </h2>
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            {{form}}
+        <button type="submit" name="upload" class="btn btn-primary">Įkelti</button>
+        
+        </form>
+
+        <tbody>
+            {% for filesx in file %}
+            <tr>
+                <div class="file-path">
+                    <td>{{filesx.template_header}}</td>
+                </div>
+            </tr>
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+    
+            {% if filesx.template_header is not None %}
+            <a class="btn btn-primary" href="{% url 'generate' %}">Sukurti rekvizitus</a>
+         {% endif %}
+            {% endfor %}
+        </tbody>
+    </div>
+</main>
+
+{% endblock content %}
