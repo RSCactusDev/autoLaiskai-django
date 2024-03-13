@@ -17,6 +17,7 @@ Application is more user-friendly and comes with an interface, offering improvem
 - Utilizes Selenium for web automation to retrieve land plot coordinates from Geomatininkas and land plot addresses from Regia.lt and maps.lt.
 - Displays data retrieved via Selenium in the CRUD interface, allowing users to edit this data and subsequently generate invitations for measurements to adjacent plots.
 - Users can download individual invitations in docx format, or there is an option to download all letter invitations in a zipped .zip file
+
 # Project file structure:
 ```
 ├─ autoLaiskai-django                          # Root directory of the project
@@ -70,6 +71,8 @@ Application is more user-friendly and comes with an interface, offering improvem
 │  │           ├─ login.html
 │  │           └─ register.html
 ```
+# Optimization
+When generating letters, the time can be reduced from 1 minute 30 seconds to 15 seconds by eliminating the use of Selenium for searching the measurement plot address and modifying the main_scraping function to avoid duplicating processes.
 # Showcase
 *In the showcase, one of the Selenium scripts is running in non-headless mode specifically for demonstration purposes. It can be switched to headless mode by modifying line 21 in scrapingData.py to ```options.headless = True.```
 
