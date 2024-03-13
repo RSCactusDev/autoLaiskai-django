@@ -1,6 +1,7 @@
 User
 # autoLaiskai-django
 This is a Django web application designed for land surveyors, which automates the preparation of letters regarding the surveyed plot and generates invitations for measurements to adjacent plots. 
+
 Application is more user-friendly and comes with an interface, offering improvements over the previous LT-CadastreInvitationGenerator script. Additionally, it does not require dbf files of Lithuanian cities; the only requirement is to have an account with Registru Centras Geomatininkas.
 # Project Features
 - Simple register, login feature. 
