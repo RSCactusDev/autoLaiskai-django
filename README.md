@@ -71,7 +71,9 @@ Application is more user-friendly and comes with an interface, offering improvem
 │  │           └─ register.html
 ```
 # Showcase
-*In the showcase, one of the Selenium scripts is running in non-headless mode specifically for demonstration purposes. It can be switched to headless mode by modifying line 21 in scrapingData.py to ```options.headless = True.``` Additionally, in the showcased use of "Gretimybiu_pazyma.pdf,"  has been altered sensitive information like landowners' names and residential addresses to random names and addresses to respect privacy concerns. 
+*In the showcase, one of the Selenium scripts is running in non-headless mode specifically for demonstration purposes. It can be switched to headless mode by modifying line 21 in scrapingData.py to ```options.headless = True.```
+
+Additionally, in the showcased use of "Gretimybiu_pazyma.pdf,"  has been altered sensitive information like landowners' names and residential addresses to random names and addresses to respect privacy concerns. 
 
 https://github.com/RSCactusDev/autoLaiskai-django/assets/78035439/ca960804-3bed-4680-a620-07ea5a8d1d89
 
