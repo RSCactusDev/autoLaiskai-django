@@ -1,7 +1,6 @@
 User
 # autoLaiskai-django
-This is a Django web application designed for land surveyors, which automates the preparation of letters regarding the surveyed plot and generates invitations for measurements to adjacent plots.
-
+This is a Django web application designed for land surveyors, which automates the preparation of letters regarding the surveyed plot and generates invitations for measurements to adjacent plots. Application is more user-friendly and comes with an interface, offering improvements over the previous LT-CadastreInvitationGenerator script. Additionally, it does not require dbf files of Lithuanian cities; the only requirement is to have an account with Registru Centras Geomatininkas.
 # Project Features
 - Simple register, login feature. 
 - On the settings page, users can upload their company details in .docx format (rekvizitai) and create their own letter template.
@@ -71,5 +70,6 @@ This is a Django web application designed for land surveyors, which automates th
 ```
 # Showcase
 *In the showcase, one of the Selenium scripts is running in non-headless mode specifically for demonstration purposes. It can be switched to headless mode by modifying line 21 in scrapingData.py to ```options.headless = True.``` Additionally, in the showcased use of "Gretimybiu_pazyma.pdf,"  has been altered sensitive information like landowners' names and residential addresses to random names and addresses to respect privacy concerns. 
+
 https://github.com/RSCactusDev/autoLaiskai-django/assets/78035439/ca960804-3bed-4680-a620-07ea5a8d1d89
 
