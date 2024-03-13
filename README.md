@@ -1,4 +1,3 @@
-User
 # autoLaiskai-django
 This is a Django web application designed for land surveyors, which automates the preparation of letters regarding the surveyed plot and generates invitations for measurements to adjacent plots. 
 
